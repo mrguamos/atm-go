@@ -84,7 +84,7 @@ const Settings = (props: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-7xl w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
         <Card>
           <CardHeader>
             <CardTitle className="text-center">Settings</CardTitle>
@@ -112,6 +112,7 @@ const Settings = (props: Props) => {
               })}
             </div>
           </CardContent>
+          <hr className='my-10 mx-10 h-1 rounded bg-slate-700' />
           <CardFooter className="flex justify-end">
             <Button type='submit'>Submit</Button>
           </CardFooter>

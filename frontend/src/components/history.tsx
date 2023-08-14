@@ -10,7 +10,12 @@ import AtmResponseDialog from './atm-response-dialog'
 import { useRecoilState } from 'recoil'
 import { loadingState, messageState, pageState } from '@/store/state'
 import { useToast } from './ui/use-toast'
-
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
 
 
 export function History () {
@@ -94,9 +99,14 @@ export function History () {
   return (
     <>
       <AtmResponseDialog isOpen={isOpen} setOpen={setOpen} atmResponse={atmResponse}/>
-      <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={messages} />
-      </div>
+      <Card className='w-full'>
+        <CardHeader>
+          <CardTitle className="text-center">History</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DataTable columns={columns} data={messages} />
+        </CardContent>
+      </Card>
     </>
   
   )

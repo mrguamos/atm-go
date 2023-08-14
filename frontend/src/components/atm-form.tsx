@@ -121,7 +121,7 @@ export function AtmForm () {
     <>
       <AtmResponseDialog isOpen={isOpen} setOpen={setOpen} atmResponse={atmResponse}/>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-7xl w-full">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
           <Card>
             <CardHeader>
               <CardTitle className="text-center">ATM Terminal</CardTitle>
@@ -412,8 +412,9 @@ export function AtmForm () {
                 </div>
               </div>
             </CardContent>
+            <hr className='my-10 mx-10 h-1 rounded bg-slate-700' />
             <CardFooter className="flex justify-between">
-              <Button type='button' onClick={reset}>Clear</Button>
+              <Button variant={'destructive'} type='button' onClick={reset}>Clear</Button>
               <Button type='submit'>Submit</Button>
             </CardFooter>
           </Card>
