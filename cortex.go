@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"log"
 	"math/big"
 	"math/rand"
 	"sort"
@@ -13,6 +12,7 @@ import (
 	"github.com/moov-io/iso8583/encoding"
 	"github.com/moov-io/iso8583/field"
 	"github.com/moov-io/iso8583/network"
+	"github.com/rs/zerolog/log"
 )
 
 const header = "ISO8583-1993001000000"
@@ -302,7 +302,7 @@ func (s *cortexSwitch) pack(message Message) ([]byte, error) {
 
 	for _, k := range keys {
 		val, _ := isoMesage.GetString(k)
-		log.Printf("Field %d: %s\n", k, val)
+		log.Printf("Field %d: %s", k, val)
 	}
 
 	rawMessage, err := isoMesage.Pack()
@@ -360,7 +360,7 @@ func (s *cortexSwitch) unpack(r io.Reader) (AtmResponse, error) {
 
 	for _, k := range keys {
 		val, _ := responseMessage.GetString(k)
-		log.Printf("Field %d: %s\n", k, val)
+		log.Printf("Field %d: %s", k, val)
 	}
 	return atmResponse, nil
 }

@@ -4,15 +4,17 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"log"
 	"net"
 	"os"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pressly/goose/v3"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/viper"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"golang.org/x/crypto/ssh"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 type App struct {
@@ -47,31 +49,43 @@ func (a *App) shutdown(ctx context.Context) {
 }
 
 func (a *App) startup(ctx context.Context) {
+	logFile := &lumberjack.Logger{
+		Filename:   "logfile.txt",
+		MaxSize:    10,
+		MaxBackups: 3,
+		MaxAge:     7,
+		Compress:   true,
+	}
+
+	multiWriter := zerolog.MultiLevelWriter(logFile, zerolog.ConsoleWriter{Out: os.Stdout})
+	logger := zerolog.New(multiWriter).With().Timestamp().Logger()
+	log.Logger = logger
+
 	a.ctx = ctx
 	dirname, err := os.UserHomeDir()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("")
 	}
 	db, err := sqlx.Connect("sqlite3", dirname+"/atm.db")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("")
 	}
 	a.db = db
 	goose.SetBaseFS(embedMigrations)
 
 	if err := goose.SetDialect("sqlite3"); err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("")
 	}
 
 	if err := goose.Up(db.DB, "migrations"); err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).Msg("")
 	}
 
 	configService := &configService{db: db}
 	a.configService = configService
 	configs, err := configService.loadConfigs()
 	if err != nil {
-		log.Fatal("unable to load configs:", err)
+		log.Fatal().Err(err).Msg("")
 	}
 	for _, v := range configs {
 		viper.SetDefault(v.Key, v.Value)
@@ -85,23 +99,34 @@ func (a *App) startup(ctx context.Context) {
 func (a *App) SendMessage(message Message) (AtmResponse, error) {
 	atmSwitch, err := getAtmSwitch(message)
 	if err != nil {
+		log.Error().Err(err).Msg("")
 		return AtmResponse{}, err
 	}
 	atmSwitch.build(&message, false)
-	return a.messageService.sendTcpMessage(atmSwitch, message)
+	response, err := a.messageService.sendTcpMessage(atmSwitch, message)
+	if err != nil {
+		log.Error().Err(err).Msg("")
+	}
+	return response, err
 }
 
 func (a *App) SendReversalMessage(id int) (AtmResponse, error) {
 	message, err := a.messageService.getMessage(id)
 	if err != nil {
+		log.Error().Err(err).Msg("")
 		return AtmResponse{}, err
 	}
 	atmSwitch, err := getAtmSwitch(message)
 	if err != nil {
+		log.Error().Err(err).Msg("")
 		return AtmResponse{}, err
 	}
 	atmSwitch.build(&message, true)
-	return a.messageService.sendTcpMessage(atmSwitch, message)
+	response, err := a.messageService.sendTcpMessage(atmSwitch, message)
+	if err != nil {
+		log.Error().Err(err).Msg("")
+	}
+	return response, err
 }
 
 func getAtmSwitch(message Message) (atmSwitch, error) {
@@ -118,22 +143,25 @@ func getAtmSwitch(message Message) (atmSwitch, error) {
 func (a *App) GetMessages(page int) ([]Message, error) {
 	messages, err := a.messageService.getMessages(page)
 	if err != nil {
+		log.Error().Err(err).Msg("")
 		return nil, err
 	}
 	return messages, nil
 }
 
-func (a *App) GetConfigs() []Config {
+func (a *App) GetConfigs() ([]Config, error) {
 	configs, err := a.configService.getConfigs()
 	if err != nil {
-		log.Println(err)
+		log.Error().Err(err).Msg("")
+		return nil, err
 	}
-	return configs
+	return configs, nil
 }
 
 func (a *App) UpdateConfigs(configs []Config) error {
 	err := a.configService.updateConfigs(configs)
 	if err != nil {
+		log.Error().Err(err).Msg("")
 		return err
 	}
 	return nil
@@ -142,12 +170,12 @@ func (a *App) UpdateConfigs(configs []Config) error {
 func (a *App) UseTunnel() error {
 	sshClient, listener, err := tunnel(a.ctx)
 	if err != nil {
-		log.Println("unable to load ssh tunnel:", err)
+		log.Error().Err(err).Msg("")
 		return err
 	}
 	a.sshClient = sshClient
 	a.listener = listener
-	log.Println("tunnel successful")
+	log.Print("tunnel successful")
 	return nil
 }
 
@@ -155,6 +183,7 @@ func (a *App) CloseTunnel() error {
 	if a.listener != nil {
 		err := a.listener.Close()
 		if err != nil {
+			log.Error().Err(err).Msg("")
 			return err
 		}
 
@@ -162,6 +191,7 @@ func (a *App) CloseTunnel() error {
 	if a.sshClient != nil {
 		err := a.sshClient.Close()
 		if err != nil {
+			log.Error().Err(err).Msg("")
 			return err
 		}
 	}
@@ -172,6 +202,7 @@ func (a *App) PingTunnel() {
 	if a.sshClient != nil {
 		_, _, err := a.sshClient.SendRequest("keepalive@openssh.com", true, nil)
 		if err != nil {
+			log.Error().Err(err).Msg("")
 			runtime.EventsEmit(a.ctx, "tunnel", false, false)
 			return
 		}

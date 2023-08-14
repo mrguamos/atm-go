@@ -4,9 +4,10 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"log"
 	"net"
 	"os"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/spf13/viper"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -42,7 +43,7 @@ func tunnel(ctx context.Context) (*ssh.Client, net.Listener, error) {
 		return nil, nil, fmt.Errorf("failed to create listener on bastion host: %v", err)
 	}
 
-	log.Printf("SSH tunnel established: %s -> %s\n", localAddr, targetAddr)
+	log.Printf("SSH tunnel established: %s -> %s", localAddr, targetAddr)
 	runtime.EventsEmit(ctx, "tunnel", true)
 
 	go func() {
@@ -63,18 +64,18 @@ func tunnel(ctx context.Context) (*ssh.Client, net.Listener, error) {
 	return bastionConn, listener, nil
 }
 
-func publicKeyFile(file string) ssh.AuthMethod {
+func publicKeyFile(file string) (ssh.AuthMethod, error) {
 	key, err := os.ReadFile(file)
 	if err != nil {
-		log.Fatalf("Failed to read private key: %v", err)
+		return nil, fmt.Errorf("failed to read private key: %w", err)
 	}
 
 	signer, err := ssh.ParsePrivateKeyWithPassphrase(key, []byte(viper.GetString("SSH_PASSPHRASE")))
 	if err != nil {
-		log.Fatalf("Failed to parse private key: %v", err)
+		return nil, fmt.Errorf("failed to parse private key: %w", err)
 	}
 
-	return ssh.PublicKeys(signer)
+	return ssh.PublicKeys(signer), nil
 }
 
 func handleLocalConnection(client *ssh.Client, localConn net.Conn, targetAddr string) {
@@ -92,7 +93,7 @@ func sshAgentAuth() (ssh.AuthMethod, error) {
 	sshKey := viper.GetString("SSH_KEY")
 
 	if len(sshKey) > 0 {
-		return publicKeyFile(sshKey), nil
+		return publicKeyFile(sshKey)
 	}
 
 	sshAgent, err := net.Dial("unix", os.Getenv("SSH_AUTH_SOCK"))
