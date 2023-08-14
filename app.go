@@ -66,14 +66,14 @@ func (a *App) startup(ctx context.Context) {
 	log.Logger = logger
 
 	a.ctx = ctx
-	db, err := sqlx.Connect("sqlite3", dirname+"/atm.db")
+	db, err := sqlx.Connect("sqlite", dirname+"/atm.db")
 	if err != nil {
 		log.Fatal().Err(err).Msg("")
 	}
 	a.db = db
 	goose.SetBaseFS(embedMigrations)
 
-	if err := goose.SetDialect("sqlite3"); err != nil {
+	if err := goose.SetDialect("sqlite"); err != nil {
 		log.Fatal().Err(err).Msg("")
 	}
 
