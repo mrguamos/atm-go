@@ -62,7 +62,7 @@ func (a *App) startup(ctx context.Context) {
 	}
 
 	multiWriter := zerolog.MultiLevelWriter(logFile, zerolog.ConsoleWriter{Out: os.Stdout})
-	logger := zerolog.New(multiWriter).With().Timestamp().Logger()
+	logger := zerolog.New(multiWriter).With().Caller().Timestamp().Logger()
 	log.Logger = logger
 
 	a.ctx = ctx

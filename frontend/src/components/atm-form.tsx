@@ -45,13 +45,12 @@ export function AtmForm () {
       invalid_type_error: `Invalid device, should be any of ${getEnumKeys(Device)}.`,
       required_error: 'Device is required.'
     }),
-    primaryAccountNumber: z.string({
-    }).max(19),
+    primaryAccountNumber: z.string({}).max(19).optional(),
     transactionAmount: z.coerce.number().optional(),
     acquiringInstitutionCode: z.string({}).min(1, 'Acquiring Institution Code is required.').max(11),
     receivingInstitutionCode: z.string({}).max(11).optional(),
     transactionFee: z.coerce.number().optional(),
-    terminalNameAndLocation: z.string({}).min(1, 'Terminal name and location is required.').max(99),
+    terminalNameAndLocation: z.string({}).max(99),
     currencyCode: z.nativeEnum(Currency, {
       invalid_type_error: `Invalid currency, should be any of ${getEnumKeys(Currency)}.`,
       required_error: 'Currency is required.'
