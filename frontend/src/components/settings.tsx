@@ -87,7 +87,7 @@ const Settings = (props: Props) => {
                         <FormItem>
                           <FormLabel htmlFor={c.key}>{c.key}</FormLabel>
                           <FormControl>
-                            <Input id={c.key} aria-describedby={c.key} defaultValue={field.value ?? ''} onChange={field.onChange}/>
+                            <Input type={c.key === 'SSH_PASSPHRASE' ? 'password' : 'text'} id={c.key} aria-describedby={c.key} defaultValue={field.value ?? ''} onChange={field.onChange}/>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
