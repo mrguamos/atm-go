@@ -36,7 +36,7 @@ func (s *configService) updateConfigs(configs []Config) error {
 	oldConfig := make(map[string]string)
 	for _, c := range configs {
 		oldConfig[c.Key] = c.Value
-		_, err := tx.Exec("UPDATE config SET value = :value WHERE key = :key", c.Value, c.Key)
+		_, err := tx.Exec("UPDATE config SET value = $1 WHERE key = $2", c.Value, c.Key)
 		if err != nil {
 			tx.Rollback()
 			for k, v := range oldConfig {
