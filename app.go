@@ -49,8 +49,12 @@ func (a *App) shutdown(ctx context.Context) {
 }
 
 func (a *App) startup(ctx context.Context) {
+	dirname, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal().Err(err).Msg("")
+	}
 	logFile := &lumberjack.Logger{
-		Filename:   "logfile.txt",
+		Filename:   dirname + "/logfile.log",
 		MaxSize:    10,
 		MaxBackups: 3,
 		MaxAge:     7,
@@ -62,10 +66,6 @@ func (a *App) startup(ctx context.Context) {
 	log.Logger = logger
 
 	a.ctx = ctx
-	dirname, err := os.UserHomeDir()
-	if err != nil {
-		log.Fatal().Err(err).Msg("")
-	}
 	db, err := sqlx.Connect("sqlite3", dirname+"/atm.db")
 	if err != nil {
 		log.Fatal().Err(err).Msg("")
