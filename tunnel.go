@@ -70,7 +70,15 @@ func publicKeyFile(file string) (ssh.AuthMethod, error) {
 		return nil, fmt.Errorf("failed to read private key: %w", err)
 	}
 
-	signer, err := ssh.ParsePrivateKeyWithPassphrase(key, []byte(viper.GetString("SSH_PASSPHRASE")))
+	passPhrase := viper.GetString("SSH_PASSPHRASE")
+	var signer ssh.Signer
+
+	if len(passPhrase) > 0 {
+		signer, err = ssh.ParsePrivateKeyWithPassphrase(key, []byte(viper.GetString("SSH_PASSPHRASE")))
+	} else {
+		signer, err = ssh.ParsePrivateKey(key)
+	}
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse private key: %w", err)
 	}
