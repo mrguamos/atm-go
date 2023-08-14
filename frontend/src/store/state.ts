@@ -16,6 +16,11 @@ export const messageState = atom({
   default: new main.Message()
 })
 
+export const keyState = atom({
+  key: 'key',
+  default: 0
+})
+
 export const tunnelState = atom({
   key: 'tunnel',
   default: false

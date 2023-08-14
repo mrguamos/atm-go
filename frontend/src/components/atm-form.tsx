@@ -26,8 +26,8 @@ import { useState } from 'react'
 import { SendMessage } from '../../wailsjs/go/main/App'
 import { main } from '../../wailsjs/go/models'
 import AtmResponseDialog from './atm-response-dialog'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { loadingState, messageState } from '@/store/state'
+import { useRecoilState } from 'recoil'
+import { keyState, loadingState, messageState } from '@/store/state'
 import { useToast } from './ui/use-toast'
 
 
@@ -67,8 +67,13 @@ export function AtmForm () {
     }).optional()
   })
 
+  const [message, setMessage] = useRecoilState(messageState)
+  const [, setKey] = useRecoilState(keyState)
 
-  const message = useRecoilValue(messageState)
+  const reset = () => {
+    setMessage({} as main.Message)
+    setKey(new Date().getMilliseconds())
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -407,7 +412,8 @@ export function AtmForm () {
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="flex justify-end">
+            <CardFooter className="flex justify-between">
+              <Button type='button' onClick={reset}>Clear</Button>
               <Button type='submit'>Submit</Button>
             </CardFooter>
           </Card>
