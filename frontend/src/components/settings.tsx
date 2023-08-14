@@ -14,7 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { loadingState } from '@/store/state'
-import { GetConfigs, UpdateConfigs } from '../../wailsjs/go/main/App'
+import { GetConfigs, UpdateConfigs, OpenFileDialog} from '../../wailsjs/go/main/App'
 import { main } from '../../wailsjs/go/models'
 import { useToast } from '@/components/ui/use-toast'
 
@@ -68,6 +68,20 @@ const Settings = (props: Props) => {
     })
   }, [])
 
+  
+  const openFileDialog = async (event: React.MouseEvent<HTMLElement>, i: number) => {
+    try {
+      const file = await OpenFileDialog()
+      if(file) {
+        form.setValue(`configs.${i}.value`, file.replaceAll('\\', '/'))
+      }
+    } catch (error: any) {
+      toast({
+        description: error
+      })
+    }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-7xl w-full">
@@ -87,7 +101,7 @@ const Settings = (props: Props) => {
                         <FormItem>
                           <FormLabel htmlFor={c.key}>{c.key}</FormLabel>
                           <FormControl>
-                            <Input type={c.key === 'SSH_PASSPHRASE' ? 'password' : 'text'} id={c.key} aria-describedby={c.key} defaultValue={field.value ?? ''} onChange={field.onChange}/>
+                            <Input onClick={(e) => c.key === 'SSH_KEY' ? openFileDialog(e, i): undefined} type={c.key === 'SSH_PASSPHRASE' ? 'password' : 'text'} id={c.key} aria-describedby={c.key} defaultValue={field.value ?? ''} onChange={field.onChange}/>
                           </FormControl>
                           <FormMessage />
                         </FormItem>

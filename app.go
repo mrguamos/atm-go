@@ -211,3 +211,7 @@ func (a *App) PingTunnel() {
 	}
 	runtime.EventsEmit(a.ctx, "tunnel", false, false)
 }
+
+func (a *App) OpenFileDialog() (string, error) {
+	return runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{})
+}

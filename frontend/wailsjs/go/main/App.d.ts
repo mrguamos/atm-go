@@ -8,6 +8,8 @@ export function GetConfigs():Promise<Array<main.Config>>;
 
 export function GetMessages(arg1:number):Promise<Array<main.Message>>;
 
+export function OpenFileDialog():Promise<string>;
+
 export function PingTunnel():Promise<void>;
 
 export function SendMessage(arg1:main.Message):Promise<main.AtmResponse>;

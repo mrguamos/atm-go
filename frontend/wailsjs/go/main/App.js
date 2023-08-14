@@ -14,6 +14,10 @@ export function GetMessages(arg1) {
   return window['go']['main']['App']['GetMessages'](arg1);
 }
 
+export function OpenFileDialog() {
+  return window['go']['main']['App']['OpenFileDialog']();
+}
+
 export function PingTunnel() {
   return window['go']['main']['App']['PingTunnel']();
 }

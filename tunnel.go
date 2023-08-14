@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"net"
@@ -12,7 +13,6 @@ import (
 	"github.com/spf13/viper"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"golang.org/x/crypto/ssh"
-	"golang.org/x/crypto/ssh/agent"
 )
 
 func tunnel(ctx context.Context) (*ssh.Client, net.Listener, error) {
@@ -96,16 +96,5 @@ func sshAgentAuth() (ssh.AuthMethod, error) {
 		return publicKeyFile(sshKey)
 	}
 
-	sshAgent, err := net.Dial("unix", os.Getenv("SSH_AUTH_SOCK"))
-	if err != nil {
-		return nil, err
-	}
-
-	agentClient := agent.NewClient(sshAgent)
-	signers, err := agentClient.Signers()
-	if err != nil {
-		return nil, err
-	}
-
-	return ssh.PublicKeys(signers...), nil
+	return nil, errors.New("missing SSH_KEY, please configure it in the settings")
 }
