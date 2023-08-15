@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil'
 import { ThemeButton } from './theme-button'
-import { Landmark, TrainFrontTunnel } from 'lucide-react'
+import { Landmark, Cable } from 'lucide-react'
 import { loadingState, pageState, tunnelState } from '@/store/state'
 import { Button } from './ui/button'
 import { CloseTunnel, PingTunnel, UseTunnel } from '../../wailsjs/go/main/App'
@@ -56,7 +56,7 @@ const Navigation = () => {
             setLoading(false)   
           }
         }}>
-          <TrainFrontTunnel color={tunnel ? 'green': 'red'} />
+          <Cable color={tunnel ? 'green': 'red'} />
         </Button>
         <ThemeButton />
       </div>

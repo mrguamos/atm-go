@@ -419,7 +419,7 @@ func addTrailingSpaces(input string, length int) string {
 func balanceDeserializer(input string) *big.Float {
 	b := new(big.Float)
 	if len(input) >= 20 {
-		balance := input[8:20]
+		balance := input[7:18]
 		b.SetString(balance)
 		return b.Quo(b, big.NewFloat(100))
 	}
