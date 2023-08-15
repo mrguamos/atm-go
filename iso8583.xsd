@@ -1,0 +1,268 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="Iso8583PostXml">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="MsgType"/>
+        <xsd:element ref="Fields"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="MsgType" type="xsd:string"/>
+  <xsd:element name="Fields">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Field_002" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_003" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_004" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_005" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_007" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_009" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_011" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_012" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_013" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_014" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_015" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_016" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_018" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_022" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_023" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_025" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_026" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_027" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_028" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_029" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_030" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_031" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_032" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_033" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_035" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_037" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_038" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_039" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_040" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_041" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_042" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_043" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_044" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_045" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_048" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_049" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_050" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_052" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_053" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_054" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_056" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_057" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_058" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_059" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_066" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_067" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_070" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_073" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_074" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_075" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_076" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_077" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_078" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_079" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_080" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_081" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_082" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_083" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_084" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_085" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_086" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_087" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_088" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_089" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_090" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_091" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_095" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_097" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_098" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_100" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_101" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_102" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_103" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_118" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_119" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_123" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_125" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_002" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_003" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_004" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_005" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_006" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_007" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_008" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_009" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_010" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_011" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_012" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_013" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_014" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_015" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_016" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_017" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_018" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_019" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_020" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_021" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_022" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_023" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_024" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_025" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_026" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_027" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_028" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_029" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_030" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_031" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_032" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_033" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_034" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="Field_127_035" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Field_002" type="xsd:string"/>
+  <xsd:element name="Field_003" type="xsd:string"/>
+  <xsd:element name="Field_004" type="xsd:string"/>
+  <xsd:element name="Field_005" type="xsd:string"/>
+  <xsd:element name="Field_007" type="xsd:string"/>
+  <xsd:element name="Field_009" type="xsd:string"/>
+  <xsd:element name="Field_011" type="xsd:string"/>
+  <xsd:element name="Field_012" type="xsd:string"/>
+  <xsd:element name="Field_013" type="xsd:string"/>
+  <xsd:element name="Field_014" type="xsd:string"/>
+  <xsd:element name="Field_015" type="xsd:string"/>
+  <xsd:element name="Field_016" type="xsd:string"/>
+  <xsd:element name="Field_018" type="xsd:string"/>
+  <xsd:element name="Field_022" type="xsd:string"/>
+  <xsd:element name="Field_023" type="xsd:string"/>
+  <xsd:element name="Field_025" type="xsd:string"/>
+  <xsd:element name="Field_026" type="xsd:string"/>
+  <xsd:element name="Field_027" type="xsd:string"/>
+  <xsd:element name="Field_028" type="xsd:string"/>
+  <xsd:element name="Field_029" type="xsd:string"/>
+  <xsd:element name="Field_030" type="xsd:string"/>
+  <xsd:element name="Field_031" type="xsd:string"/>
+  <xsd:element name="Field_032" type="xsd:string"/>
+  <xsd:element name="Field_033" type="xsd:string"/>
+  <xsd:element name="Field_035" type="xsd:string"/>
+  <xsd:element name="Field_037" type="xsd:string"/>
+  <xsd:element name="Field_038" type="xsd:string"/>
+  <xsd:element name="Field_039" type="xsd:string"/>
+  <xsd:element name="Field_040" type="xsd:string"/>
+  <xsd:element name="Field_041" type="xsd:string"/>
+  <xsd:element name="Field_042" type="xsd:string"/>
+  <xsd:element name="Field_043" type="xsd:string"/>
+  <xsd:element name="Field_044" type="xsd:string"/>
+  <xsd:element name="Field_045" type="xsd:string"/>
+  <xsd:element name="Field_048" type="xsd:string"/>
+  <xsd:element name="Field_049" type="xsd:string"/>
+  <xsd:element name="Field_050" type="xsd:string"/>
+  <xsd:element name="Field_052" type="xsd:string"/>
+  <xsd:element name="Field_053" type="xsd:string"/>
+  <xsd:element name="Field_054" type="xsd:string"/>
+  <xsd:element name="Field_056" type="xsd:string"/>
+  <xsd:element name="Field_057" type="xsd:string"/>
+  <xsd:element name="Field_058" type="xsd:string"/>
+  <xsd:element name="Field_059" type="xsd:string"/>
+  <xsd:element name="Field_066" type="xsd:string"/>
+  <xsd:element name="Field_067" type="xsd:string"/>
+  <xsd:element name="Field_070" type="xsd:string"/>
+  <xsd:element name="Field_073" type="xsd:string"/>
+  <xsd:element name="Field_074" type="xsd:string"/>
+  <xsd:element name="Field_075" type="xsd:string"/>
+  <xsd:element name="Field_076" type="xsd:string"/>
+  <xsd:element name="Field_077" type="xsd:string"/>
+  <xsd:element name="Field_078" type="xsd:string"/>
+  <xsd:element name="Field_079" type="xsd:string"/>
+  <xsd:element name="Field_080" type="xsd:string"/>
+  <xsd:element name="Field_081" type="xsd:string"/>
+  <xsd:element name="Field_082" type="xsd:string"/>
+  <xsd:element name="Field_083" type="xsd:string"/>
+  <xsd:element name="Field_084" type="xsd:string"/>
+  <xsd:element name="Field_085" type="xsd:string"/>
+  <xsd:element name="Field_086" type="xsd:string"/>
+  <xsd:element name="Field_087" type="xsd:string"/>
+  <xsd:element name="Field_088" type="xsd:string"/>
+  <xsd:element name="Field_089" type="xsd:string"/>
+  <xsd:element name="Field_090" type="xsd:string"/>
+  <xsd:element name="Field_091" type="xsd:string"/>
+  <xsd:element name="Field_095" type="xsd:string"/>
+  <xsd:element name="Field_097" type="xsd:string"/>
+  <xsd:element name="Field_098" type="xsd:string"/>
+  <xsd:element name="Field_100" type="xsd:string"/>
+  <xsd:element name="Field_101" type="xsd:string"/>
+  <xsd:element name="Field_102" type="xsd:string"/>
+  <xsd:element name="Field_103" type="xsd:string"/>
+  <xsd:element name="Field_118" type="xsd:string"/>
+  <xsd:element name="Field_119" type="xsd:string"/>
+  <xsd:element name="Field_123" type="xsd:string"/>
+  <xsd:element name="Field_125" type="xsd:string"/>
+  <xsd:element name="Field_127_002" type="xsd:string"/>
+  <xsd:element name="Field_127_003" type="xsd:string"/>
+  <xsd:element name="Field_127_004" type="xsd:string"/>
+  <xsd:element name="Field_127_005" type="xsd:string"/>
+  <xsd:element name="Field_127_006" type="xsd:string"/>
+  <xsd:element name="Field_127_007" type="xsd:string"/>
+  <xsd:element name="Field_127_008" type="xsd:string"/>
+  <xsd:element name="Field_127_009" type="xsd:string"/>
+  <xsd:element name="Field_127_010" type="xsd:string"/>
+  <xsd:element name="Field_127_011" type="xsd:string"/>
+  <xsd:element name="Field_127_012" type="xsd:string"/>
+  <xsd:element name="Field_127_013" type="xsd:string"/>
+  <xsd:element name="Field_127_014" type="xsd:string"/>
+  <xsd:element name="Field_127_015" type="xsd:string"/>
+  <xsd:element name="Field_127_016" type="xsd:string"/>
+  <xsd:element name="Field_127_017" type="xsd:string"/>
+  <xsd:element name="Field_127_018" type="xsd:string"/>
+  <xsd:element name="Field_127_019" type="xsd:string"/>
+  <xsd:element name="Field_127_020" type="xsd:string"/>
+  <xsd:element name="Field_127_021" type="xsd:string"/>
+  <xsd:element name="Field_127_022" type="xsd:string"/>
+  <xsd:element name="Field_127_023" type="xsd:string"/>
+  <xsd:element name="Field_127_024" type="xsd:string"/>
+  <xsd:element name="Field_127_025" type="IccData"/>
+  <xsd:element name="Field_127_026" type="xsd:string"/>
+  <xsd:element name="Field_127_027" type="xsd:string"/>
+  <xsd:element name="Field_127_028" type="xsd:string"/>
+  <xsd:element name="Field_127_029" type="xsd:string"/>
+  <xsd:element name="Field_127_030" type="xsd:string"/>
+  <xsd:element name="Field_127_031" type="xsd:string"/>
+  <xsd:element name="Field_127_032" type="xsd:string"/>
+  <xsd:element name="Field_127_033" type="xsd:string"/>
+  <xsd:element name="Field_127_034" type="xsd:string"/>
+  <xsd:element name="Field_127_035" type="xsd:string"/>
+
+  <xsd:complexType name="IccData">
+      <xsd:sequence>
+        <xsd:element name="IccRequest" type="IccRequestType"/>
+      </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="IccRequestType">
+    <xsd:sequence>
+      <xsd:element name="AmountAuthorized" type="xsd:string"/>
+      <xsd:element name="AmountOther" type="xsd:string"/>
+      <xsd:element name="ApplicationInterchangeProfile" type="xsd:string"/>
+      <xsd:element name="ApplicationTransactionCounter" type="xsd:string"/>
+      <xsd:element name="Cryptogram" type="xsd:string"/>
+      <xsd:element name="CryptogramInformationData" type="xsd:string"/>
+      <xsd:element name="CvmResults" type="xsd:string"/>
+      <xsd:element name="IssuerApplicationData" type="xsd:string"/>
+      <xsd:element name="TerminalCapabilities" type="xsd:string"/>
+      <xsd:element name="TerminalCountryCode" type="xsd:string"/>
+      <xsd:element name="TerminalType" type="xsd:string"/>
+      <xsd:element name="TerminalVerificationResult" type="xsd:string"/>
+      <xsd:element name="TransactionCurrencyCode" type="xsd:string"/>
+      <xsd:element name="TransactionDate" type="xsd:string"/>
+      <xsd:element name="TransactionType" type="xsd:string"/>
+      <xsd:element name="UnpredictableNumber" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
+

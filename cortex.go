@@ -1,12 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
-	"math/big"
 	"math/rand"
 	"sort"
-	"time"
 
 	"github.com/moov-io/iso8583"
 	"github.com/moov-io/iso8583/encoding"
@@ -373,29 +372,6 @@ func padLeftWithZeros(input string, length int) string {
 	return fmt.Sprintf("%0*s", length, input)
 }
 
-func generateTransmissionDateTime() string {
-	currentDate := time.Now()
-	month := fmt.Sprintf("%02d", int(currentDate.Month()))
-	day := fmt.Sprintf("%02d", currentDate.Day())
-	hours := fmt.Sprintf("%02d", currentDate.Hour())
-	minutes := fmt.Sprintf("%02d", currentDate.Minute())
-	seconds := fmt.Sprintf("%02d", currentDate.Second())
-	return month + day + hours + minutes + seconds
-}
-
-func generateLocalTransactionDateTime(transmissionDateTime string) string {
-	currentDate := time.Now()
-	year := fmt.Sprintf("%02d", currentDate.Year()%100)
-	return year + transmissionDateTime
-}
-
-func generateStan() string {
-	min := 0
-	max := 999999
-	randomSixDigitNumber := rand.Intn(max-min+1) + min
-	return fmt.Sprintf("%06d", randomSixDigitNumber)
-}
-
 func generateRrn() string {
 	min := 0
 	max := 999999999999
@@ -416,13 +392,6 @@ func addTrailingSpaces(input string, length int) string {
 	return fmt.Sprintf("%-*s", length, input)
 }
 
-func balanceDeserializer(input string) *big.Float {
-	b := new(big.Float)
-	if len(input) >= 20 {
-		balance := input[7:18]
-		b.SetString(balance)
-		return b.Quo(b, big.NewFloat(100))
-	}
-	big.NewFloat(0)
-	return b
+func (s *cortexSwitch) packEchoTest() ([]byte, error) {
+	return nil, errors.New("echo test not supported")
 }

@@ -30,13 +30,13 @@ CREATE TABLE config (
 );
 
 INSERT INTO config ("key", "value") VALUES 
-('HOST', ''),
-('PORT', ''),
-('BASTION_HOST', ''),
-('BASTION_PORT', ''),
-('TARGET_HOST', ''),
-('SSH_USERNAME', ''),
-('SSH_LOCAL_PORT', ''),
-('SSH_REMOTE_PORT', ''),
+('HOST', 'localhost'),
+('PORT', '50122'),
+('BASTION_HOST', 'bastion.stage.bank.nextbank.cloud'),
+('BASTION_PORT', '22'),
+('TARGET_HOST', 'atm.stage.bank.nextbank.cloud'),
+('SSH_USERNAME', 'ec2-user'),
+('SSH_LOCAL_PORT', '50122'),
+('SSH_REMOTE_PORT', '50122'),
 ('SSH_KEY', ''),
 ('SSH_PASSPHRASE', '');

@@ -22,8 +22,8 @@ export function PingTunnel() {
   return window['go']['main']['App']['PingTunnel']();
 }
 
-export function SendMessage(arg1) {
-  return window['go']['main']['App']['SendMessage'](arg1);
+export function SendFinancialMessage(arg1) {
+  return window['go']['main']['App']['SendFinancialMessage'](arg1);
 }
 
 export function SendReversalMessage(arg1) {

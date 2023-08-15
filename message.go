@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"math/big"
+	"math/rand"
 	"net"
 	"time"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/spf13/viper"
 )
 
 type Message struct {
@@ -152,28 +153,49 @@ func (s *messageService) saveMessage(message Message) error {
 	return err
 }
 
-func (s *messageService) sendTcpMessage(atmSwitch atmSwitch, message Message) (AtmResponse, error) {
-	err := s.saveMessage(message)
-	if err != nil {
-		return AtmResponse{}, err
-	}
-	packed, err := atmSwitch.pack(message)
-	if err != nil {
-		return AtmResponse{}, err
-	}
-	serverAddr := fmt.Sprintf("%s:%s", viper.GetString("HOST"), viper.GetString("PORT"))
-	conn, err := net.DialTimeout("tcp", serverAddr, 30*time.Second)
-
-	if err != nil {
-		return AtmResponse{}, err
-	}
-	defer conn.Close()
+func (s *messageService) sendTcpMessage(conn net.Conn, packed []byte) error {
 	conn.SetWriteDeadline(time.Now().Add(30 * time.Second))
-	_, err = conn.Write(packed)
+	_, err := conn.Write(packed)
 	if err != nil {
-		return AtmResponse{}, err
+		return err
 	}
-	conn.SetReadDeadline(time.Now().Add(30 * time.Second))
-	return atmSwitch.unpack(conn)
+	err = conn.SetReadDeadline(time.Now().Add(30 * time.Second))
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
+func generateTransmissionDateTime() string {
+	currentDate := time.Now()
+	month := fmt.Sprintf("%02d", int(currentDate.Month()))
+	day := fmt.Sprintf("%02d", currentDate.Day())
+	hours := fmt.Sprintf("%02d", currentDate.Hour())
+	minutes := fmt.Sprintf("%02d", currentDate.Minute())
+	seconds := fmt.Sprintf("%02d", currentDate.Second())
+	return month + day + hours + minutes + seconds
+}
+
+func generateStan() string {
+	min := 0
+	max := 999999
+	randomSixDigitNumber := rand.Intn(max-min+1) + min
+	return fmt.Sprintf("%06d", randomSixDigitNumber)
+}
+
+func generateLocalTransactionDateTime(transmissionDateTime string) string {
+	currentDate := time.Now()
+	year := fmt.Sprintf("%02d", currentDate.Year()%100)
+	return year + transmissionDateTime
+}
+
+func balanceDeserializer(input string) *big.Float {
+	b := new(big.Float)
+	if len(input) >= 20 {
+		balance := input[8:20]
+		b.SetString(balance)
+		return b.Quo(b, big.NewFloat(100))
+	}
+	big.NewFloat(0)
+	return b
 }

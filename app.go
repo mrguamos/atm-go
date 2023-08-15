@@ -6,6 +6,7 @@ import (
 	"io"
 	"net"
 	"os"
+	"time"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pressly/goose/v3"
@@ -34,6 +35,7 @@ type atmSwitch interface {
 	pack(message Message) ([]byte, error)
 	unpack(r io.Reader) (AtmResponse, error)
 	build(message *Message, reversal bool)
+	packEchoTest() ([]byte, error)
 }
 
 func (a *App) shutdown(ctx context.Context) {
@@ -96,18 +98,38 @@ func (a *App) startup(ctx context.Context) {
 
 }
 
-func (a *App) SendMessage(message Message) (AtmResponse, error) {
+func sendMessage(a *App, message Message, reversal bool) (AtmResponse, error) {
 	atmSwitch, err := getAtmSwitch(message)
 	if err != nil {
 		log.Error().Err(err).Msg("")
 		return AtmResponse{}, err
 	}
-	atmSwitch.build(&message, false)
-	response, err := a.messageService.sendTcpMessage(atmSwitch, message)
+	atmSwitch.build(&message, reversal)
+	err = a.messageService.saveMessage(message)
 	if err != nil {
 		log.Error().Err(err).Msg("")
+		return AtmResponse{}, err
 	}
-	return response, err
+	b, err := atmSwitch.pack(message)
+	if err != nil {
+		log.Error().Err(err).Msg("")
+		return AtmResponse{}, err
+	}
+	serverAddr := fmt.Sprintf("%s:%s", viper.GetString("HOST"), viper.GetString("PORT"))
+	conn, err := net.DialTimeout("tcp", serverAddr, 30*time.Second)
+	if err != nil {
+		return AtmResponse{}, err
+	}
+	defer conn.Close()
+	err = a.messageService.sendTcpMessage(conn, b)
+	if err != nil {
+		return AtmResponse{}, err
+	}
+	return atmSwitch.unpack(conn)
+}
+
+func (a *App) SendFinancialMessage(message Message) (AtmResponse, error) {
+	return sendMessage(a, message, false)
 }
 
 func (a *App) SendReversalMessage(id int) (AtmResponse, error) {
@@ -116,17 +138,7 @@ func (a *App) SendReversalMessage(id int) (AtmResponse, error) {
 		log.Error().Err(err).Msg("")
 		return AtmResponse{}, err
 	}
-	atmSwitch, err := getAtmSwitch(message)
-	if err != nil {
-		log.Error().Err(err).Msg("")
-		return AtmResponse{}, err
-	}
-	atmSwitch.build(&message, true)
-	response, err := a.messageService.sendTcpMessage(atmSwitch, message)
-	if err != nil {
-		log.Error().Err(err).Msg("")
-	}
-	return response, err
+	return sendMessage(a, message, true)
 }
 
 func getAtmSwitch(message Message) (atmSwitch, error) {
@@ -134,6 +146,8 @@ func getAtmSwitch(message Message) (atmSwitch, error) {
 	switch message.Switch {
 	case CORTEX:
 		atmSwitch = cortex
+	case POSTBRIDGE:
+		atmSwitch = postbridge
 	default:
 		return nil, fmt.Errorf("atm switch not supported")
 	}

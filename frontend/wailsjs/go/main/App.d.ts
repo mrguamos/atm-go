@@ -12,7 +12,7 @@ export function OpenFileDialog():Promise<string>;
 
 export function PingTunnel():Promise<void>;
 
-export function SendMessage(arg1:main.Message):Promise<main.AtmResponse>;
+export function SendFinancialMessage(arg1:main.Message):Promise<main.AtmResponse>;
 
 export function SendReversalMessage(arg1:number):Promise<main.AtmResponse>;
 

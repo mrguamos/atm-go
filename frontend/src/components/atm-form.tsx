@@ -23,7 +23,7 @@ import { useForm } from 'react-hook-form'
 import { enumFromStringValue, getEnumKeys } from '@/lib/helper'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
 import { useState } from 'react'
-import { SendMessage } from '../../wailsjs/go/main/App'
+import { SendFinancialMessage } from '../../wailsjs/go/main/App'
 import { main } from '../../wailsjs/go/models'
 import AtmResponseDialog from './atm-response-dialog'
 import { useRecoilState } from 'recoil'
@@ -105,7 +105,7 @@ export function AtmForm () {
     let response
     try {
       setLoading(true)
-      response = await SendMessage(data)
+      response = await SendFinancialMessage(data)
       setAtmResponse(response)
       setOpen(true)
     }catch(error: any) {
