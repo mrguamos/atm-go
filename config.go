@@ -1,6 +1,8 @@
 package main
 
 import (
+	"strings"
+
 	"github.com/jmoiron/sqlx"
 	"github.com/spf13/viper"
 )
@@ -35,6 +37,9 @@ func (s *configService) updateConfigs(configs []Config) error {
 	tx, _ := s.db.Begin()
 	oldConfig := make(map[string]string)
 	for _, c := range configs {
+		if c.Key == "SSH_KEY" {
+			c.Value = strings.ReplaceAll(c.Value, "\\", "/")
+		}
 		oldConfig[c.Key] = c.Value
 		_, err := tx.Exec("UPDATE config SET value = $1 WHERE key = $2", c.Value, c.Key)
 		if err != nil {
