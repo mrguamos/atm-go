@@ -233,7 +233,11 @@ func (s *cortexSwitch) build(message *Message, reversal bool) {
 		message.Transaction = "REVERSAL " + message.Transaction
 		return
 	}
-
+	message.TransmissionDateTime = generateTransmissionDateTime()
+	message.TraceNumber = generateStan()
+	message.Rrn = generateRrn()
+	message.LocalTransactionDateTime = generateLocalTransactionDateTime(message.TransmissionDateTime)
+	message.ProcessCode = s.getProcessCode(*message) + "0000"
 }
 
 func (s *cortexSwitch) pack(message Message) ([]byte, error) {
