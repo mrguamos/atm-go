@@ -118,7 +118,7 @@ func (s *messageService) getMessage(id int) (Message, error) {
 
 func (s *messageService) getMessages(page int) ([]Message, error) {
 	message := []Message{}
-	err := s.db.Select(&message, "SELECT * FROM atm_message ORDER BY id DESC LIMIT 20 OFFSET $1", (page-1)*10)
+	err := s.db.Select(&message, "SELECT * FROM atm_message ORDER BY id DESC LIMIT 50 OFFSET $1", (page-1)*10)
 	return message, err
 }
 
