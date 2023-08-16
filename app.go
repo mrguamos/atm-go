@@ -227,5 +227,6 @@ func (a *App) PingTunnel() {
 }
 
 func (a *App) OpenFileDialog() (string, error) {
-	return runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{})
+	path, _ := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{})
+	return path, nil
 }

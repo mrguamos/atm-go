@@ -101,7 +101,7 @@ const Settings = (props: Props) => {
                         <FormItem>
                           <FormLabel htmlFor={c.key}>{c.key}</FormLabel>
                           <FormControl>
-                            <Input onClick={(e) => c.key === 'SSH_KEY' ? openFileDialog(e, i): undefined} type={c.key === 'SSH_PASSPHRASE' ? 'password' : 'text'} id={c.key} aria-describedby={c.key} defaultValue={field.value ?? ''} onChange={field.onChange}/>
+                            <Input  {...form.register(`configs.${i}.value`)} onClick={(e) => c.key === 'SSH_KEY' ? openFileDialog(e, i): undefined} type={c.key === 'SSH_PASSPHRASE' ? 'password' : 'text'} id={c.key} aria-describedby={c.key} defaultValue={field.value ?? ''} onChange={field.onChange}/>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
