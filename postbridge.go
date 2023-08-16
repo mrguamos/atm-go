@@ -15,9 +15,10 @@ type postbridgeSwitch struct {
 var postbridge = &postbridgeSwitch{}
 
 func (s *postbridgeSwitch) build(message *Message, reversal bool) {
-	message.Mti = getMti(*message, reversal)
+	originalMti := message.Mti
+	message.Mti = s.getMti(*message, reversal)
 	if reversal {
-		originalDataElements := serializeOriginalDataElements(message.Mti, message.TraceNumber, message.LocalTransactionDateTime, padLeftWithZeros(message.AcquiringInstitutionCode, 10))
+		originalDataElements := s.serializeOriginalDataElements(originalMti, message.TraceNumber, message.TransmissionDateTime, padLeftWithZeros(message.AcquiringInstitutionCode, 10))
 		message.OriginalDataElements = originalDataElements
 		message.Transaction = "REVERSAL " + message.Transaction
 		return
@@ -26,7 +27,7 @@ func (s *postbridgeSwitch) build(message *Message, reversal bool) {
 	message.TraceNumber = generateStan()
 	message.Rrn = generateRrn()
 	message.LocalTransactionDateTime = generateLocalTransactionDateTime(message.TransmissionDateTime)
-	message.ProcessCode = getProcessCode(*message) + "0000"
+	message.ProcessCode = s.getProcessCode(*message) + "0000"
 }
 
 func (s *postbridgeSwitch) pack(message Message) ([]byte, error) {
@@ -51,8 +52,15 @@ func (s *postbridgeSwitch) pack(message Message) ([]byte, error) {
 			Field041: message.TerminalID,
 			Field043: message.TerminalNameAndLocation,
 			Field049: string(message.CurrencyCode),
+			Field090: message.OriginalDataElements,
+			Field100: message.ReceivingInstitutionCode,
 			Field102: message.SourceAccount,
 			Field103: message.DestinationAccount,
+			Field127025: &IccData{
+				IccRequest: &IccRequestType{
+					AmountAuthorized: padLeftWithZeros(moveDecimalRight(message.TransactionAmount), 12),
+				},
+			},
 		},
 	}
 	xmlData, err := xml.MarshalIndent(iso, "", "    ")
@@ -60,6 +68,7 @@ func (s *postbridgeSwitch) pack(message Message) ([]byte, error) {
 		return nil, err
 	}
 	withHeader := xml.Header + string(xmlData)
+	log.Print(withHeader)
 	originalLength := len(withHeader)
 	lengthPrefix := make([]byte, 2)
 	lengthValue := int16(originalLength)
@@ -120,4 +129,52 @@ func (s *postbridgeSwitch) packEchoTest() ([]byte, error) {
 	lengthPrefix[1] = byte(lengthValue)
 	withPrefix := append(lengthPrefix, withHeader...)
 	return withPrefix, nil
+}
+
+func (s *postbridgeSwitch) getProcessCode(message Message) string {
+	var processCode string
+	transaction := message.Transaction
+	device := message.Device
+	switch transaction {
+	case PURCHASE:
+		processCode = "00"
+	case WITHDRAW, IBFTD, ELOAD:
+		processCode = "01"
+	case IBFTC:
+		if message.TargetBank == INTER_SYSTEM {
+			processCode = "26"
+		} else {
+			processCode = "21"
+		}
+	case BAL_INQ:
+		if device == ATM {
+			processCode = "30"
+		} else {
+			processCode = "31"
+		}
+	case FT:
+		processCode = "40"
+	case BILLS:
+		processCode = "51"
+	default:
+		panic("Unable to get Process Code")
+	}
+
+	return processCode
+}
+
+func (s *postbridgeSwitch) getMti(message Message, reversal bool) string {
+	if reversal {
+		return fmt.Sprintf("0%d", FinancialReversal)
+	}
+	switch message.Channel {
+	case MASTERCARD:
+		return fmt.Sprintf("0%d", FinancialRequestMasterVisa)
+	default:
+		return fmt.Sprintf("0%d", FinancialRequest)
+	}
+}
+
+func (s *postbridgeSwitch) serializeOriginalDataElements(mti string, traceNumber string, transmissionDateTime string, acquiringCode string) string {
+	return fmt.Sprint(mti, traceNumber, transmissionDateTime, "01", acquiringCode)
 }

@@ -174,7 +174,7 @@ var fisGlobalSpec = &iso8583.MessageSpec{
 	},
 }
 
-func getMti(message Message, reversal bool) string {
+func (s *cortexSwitch) getMti(message Message, reversal bool) string {
 	if reversal {
 		return fmt.Sprintf("1%d", FinancialReversal)
 	}
@@ -186,7 +186,7 @@ func getMti(message Message, reversal bool) string {
 	}
 }
 
-func getProcessCode(message Message) string {
+func (s *cortexSwitch) getProcessCode(message Message) string {
 	var processCode string
 	transaction := message.Transaction
 	device := message.Device
@@ -195,9 +195,9 @@ func getProcessCode(message Message) string {
 		processCode = "00"
 	case WITHDRAW:
 		processCode = "01"
-	case IBFTC:
-		processCode = "10"
 	case IBFTD:
+		processCode = "10"
+	case IBFTC:
 		if message.TargetBank == INTER_SYSTEM {
 			processCode = "26"
 		} else {
@@ -225,18 +225,15 @@ var cortex = &cortexSwitch{
 }
 
 func (s *cortexSwitch) build(message *Message, reversal bool) {
-	message.Mti = getMti(*message, reversal)
+	originalMti := message.Mti
+	message.Mti = s.getMti(*message, reversal)
 	if reversal {
-		originalDataElements := serializeOriginalDataElements(message.Mti, message.TraceNumber, message.LocalTransactionDateTime, padLeftWithZeros(message.AcquiringInstitutionCode, 10))
+		originalDataElements := s.serializeOriginalDataElements(originalMti, message.TraceNumber, message.LocalTransactionDateTime, padLeftWithZeros(message.AcquiringInstitutionCode, 10))
 		message.OriginalDataElements = originalDataElements
 		message.Transaction = "REVERSAL " + message.Transaction
 		return
 	}
-	message.TransmissionDateTime = generateTransmissionDateTime()
-	message.TraceNumber = generateStan()
-	message.Rrn = generateRrn()
-	message.LocalTransactionDateTime = generateLocalTransactionDateTime(message.TransmissionDateTime)
-	message.ProcessCode = getProcessCode(*message) + "0000"
+
 }
 
 func (s *cortexSwitch) pack(message Message) ([]byte, error) {
@@ -384,7 +381,7 @@ func serializeFee(fee float64) string {
 	return addTrailingSpaces(serializedFee, 34)
 }
 
-func serializeOriginalDataElements(mti string, traceNumber string, localTransactionDateTime string, acquiringCode string) string {
+func (s *cortexSwitch) serializeOriginalDataElements(mti string, traceNumber string, localTransactionDateTime string, acquiringCode string) string {
 	return fmt.Sprint(mti, traceNumber, localTransactionDateTime, "01", acquiringCode)
 }
 
