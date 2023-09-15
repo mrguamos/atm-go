@@ -155,7 +155,7 @@ func (s *postbridgeSwitch) getProcessCode(message Message) string {
 	case FT:
 		processCode = "40"
 	case BILLS:
-		processCode = "51"
+		processCode = "50"
 	default:
 		panic("Unable to get Process Code")
 	}
