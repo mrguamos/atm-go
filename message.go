@@ -64,6 +64,7 @@ const (
 	CORTEX     AtmSwitch = "CORTEX"
 	POSTBRIDGE AtmSwitch = "POSTBRIDGE"
 	COREWARE   AtmSwitch = "COREWARE"
+	NARADA     AtmSwitch = "NARADA"
 )
 
 type Transaction string
@@ -94,16 +95,16 @@ const (
 	INTER_SYSTEM Bank = "INTER_SYSTEM"
 )
 
-type MTI int
+type MTI string
 
 const (
-	FinancialRequestMasterVisa    MTI = 100
-	FinancialRequest              MTI = 200
-	FinancialAdvice               MTI = 220
-	FinancialReversal             MTI = 400
-	FinancialReversalAdvice       MTI = 420
-	FinancialReversalRepeatAdvice MTI = 421
-	NetworkManagementRequest      MTI = 800
+	FinancialRequestMasterVisa    MTI = "100"
+	FinancialRequest              MTI = "200"
+	FinancialAdvice               MTI = "220"
+	FinancialReversal             MTI = "400"
+	FinancialReversalAdvice       MTI = "420"
+	FinancialReversalRepeatAdvice MTI = "421"
+	NetworkManagementRequest      MTI = "800"
 )
 
 type messageService struct {

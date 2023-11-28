@@ -44,7 +44,8 @@ export enum Device {
 export enum AtmSwitch {
     CORTEX = 'CORTEX',
     POSTBRIDGE = 'POSTBRIDGE',
-    COREWARE = 'COREWARE'
+    COREWARE = 'COREWARE',
+    NARADA = 'NARADA'
 }
 
 export enum Transaction {

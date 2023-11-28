@@ -148,6 +148,8 @@ func getAtmSwitch(message Message) (atmSwitch, error) {
 		atmSwitch = cortex
 	case POSTBRIDGE:
 		atmSwitch = postbridge
+	case NARADA:
+		atmSwitch = narada
 	default:
 		return nil, fmt.Errorf("atm switch not supported")
 	}

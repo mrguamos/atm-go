@@ -165,13 +165,13 @@ func (s *postbridgeSwitch) getProcessCode(message Message) string {
 
 func (s *postbridgeSwitch) getMti(message Message, reversal bool) string {
 	if reversal {
-		return fmt.Sprintf("0%d", FinancialReversal)
+		return fmt.Sprintf("0%s", FinancialReversal)
 	}
 	switch message.Channel {
 	case MASTERCARD:
-		return fmt.Sprintf("0%d", FinancialRequestMasterVisa)
+		return fmt.Sprintf("0%s", FinancialRequestMasterVisa)
 	default:
-		return fmt.Sprintf("0%d", FinancialRequest)
+		return fmt.Sprintf("0%s", FinancialRequest)
 	}
 }
 

@@ -173,6 +173,7 @@ export function AtmForm () {
                               <SelectItem value="CORTEX">Cortex</SelectItem>
                               <SelectItem value="POSTBRIDGE">Postbridge</SelectItem>
                               <SelectItem value="COREWARE">Coreware</SelectItem>
+                              <SelectItem value="NARADA">Narada</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
